@@ -13,9 +13,7 @@ import utilidades.ES;
  *
  * @author javisandom
  */
-public class Principal implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Principal  {
 
     private static final int MAX_PACIENTES = 40;
 

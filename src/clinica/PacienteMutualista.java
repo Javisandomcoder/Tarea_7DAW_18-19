@@ -10,6 +10,9 @@ package clinica;
  * @author javisandom
  */
 public class PacienteMutualista extends Paciente{
+
+    private static final long serialVersionUID = 1L;
+    
     private int numeroDeHospitalizaciones;
     public static int numeroPacientesMutualistas;
 
