@@ -30,19 +30,6 @@ public abstract class Paciente implements Serializable{
         this.emailNotificaciones = paciente.emailNotificaciones;
     }
     
-    public static TipoPaciente eleccionTipoPaciente(int eleccion){
-        TipoPaciente tip = null;
-        switch(eleccion){
-            case 1:
-                tip = TipoPaciente.PRIVADO;
-                break;
-            case 2:
-                tip = TipoPaciente.MUTUALISTA;
-                break;
-        }
-        return tip;
-    }
-    
     @Override
     public String toString(){
         StringBuilder datosPaciente = new StringBuilder();

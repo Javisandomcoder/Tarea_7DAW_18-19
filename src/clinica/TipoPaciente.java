@@ -11,5 +11,29 @@ package clinica;
  */
 public enum TipoPaciente {
     PRIVADO,
-    MUTUALISTA
+    MUTUALISTA;
+
+    public static TipoPaciente getPRIVADO() {
+        return PRIVADO;
+    }
+
+    public static TipoPaciente getMUTUALISTA() {
+        return MUTUALISTA;
+    }
+    
+    
+
+    public static TipoPaciente eleccionTipoPaciente(int eleccion) {
+        TipoPaciente tip = null;
+        switch (eleccion) {
+            case 1:
+                tip = TipoPaciente.PRIVADO;
+                break;
+            case 2:
+                tip = TipoPaciente.MUTUALISTA;
+                break;
+        }
+        return tip;
+    }
+
 }
