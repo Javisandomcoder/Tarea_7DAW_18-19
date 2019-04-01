@@ -11,17 +11,7 @@ package clinica;
  */
 public enum TipoPaciente {
     PRIVADO,
-    MUTUALISTA;
-
-    public static TipoPaciente getPRIVADO() {
-        return PRIVADO;
-    }
-
-    public static TipoPaciente getMUTUALISTA() {
-        return MUTUALISTA;
-    }
-    
-    
+    MUTUALISTA;  
 
     public static TipoPaciente eleccionTipoPaciente(int eleccion) {
         TipoPaciente tip = null;

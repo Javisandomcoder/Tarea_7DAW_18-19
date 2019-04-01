@@ -29,6 +29,10 @@ public abstract class Paciente implements Serializable{
         this.nombrePaciente = paciente.nombrePaciente;
         this.emailNotificaciones = paciente.emailNotificaciones;
     }
+
+    public String getNIF() {
+        return NIF;
+    }
     
     @Override
     public String toString(){

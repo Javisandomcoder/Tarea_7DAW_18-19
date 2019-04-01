@@ -14,9 +14,11 @@ public class PacienteMutualista extends Paciente{
     private static final long serialVersionUID = 1L;
     
     private int numeroDeHospitalizaciones;
-    public static int numeroPacientesMutualistas;
+    public static int numeroPacientesMutualistas;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     public PacienteMutualista(String NIF, String nombrePaciente, String emailNotificaciones) {
         super(NIF, nombrePaciente, emailNotificaciones);
+        PacienteMutualista.numeroPacientesMutualistas++;//<<<<<<<<<<<<<<<<<<<<<<<<<<
     }
+    
 }

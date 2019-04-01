@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/javisandom/NetBeansProjects/Tarea_7DAW_18-19/src/utilidades/ES.java</file>
-            <file>file:/home/javisandom/NetBeansProjects/Tarea_7DAW_18-19/src/clinica/PacientePrivado.java</file>
-            <file>file:/home/javisandom/NetBeansProjects/Tarea_7DAW_18-19/src/clinica/Paciente.java</file>
-            <file>file:/home/javisandom/NetBeansProjects/Tarea_7DAW_18-19/src/clinica/PacienteMutualista.java</file>
-            <file>file:/home/javisandom/NetBeansProjects/Tarea_7DAW_18-19/src/clinica/TipoPaciente.java</file>
-            <file>file:/home/javisandom/NetBeansProjects/Tarea_7DAW_18-19/src/clinica/Principal.java</file>
+            <file>file:/home/javisandom/NetBeansProjects/Tarea7/src/clinica/PacienteMutualista.java</file>
+            <file>file:/home/javisandom/NetBeansProjects/Tarea7/src/clinica/TipoPaciente.java</file>
+            <file>file:/home/javisandom/NetBeansProjects/Tarea7/src/clinica/Paciente.java</file>
+            <file>file:/home/javisandom/NetBeansProjects/Tarea7/src/clinica/PacientePrivado.java</file>
+            <file>file:/home/javisandom/NetBeansProjects/Tarea7/src/clinica/Principal.java</file>
+            <file>file:/home/javisandom/NetBeansProjects/Tarea7/src/utilidades/ES.java</file>
         </group>
     </open-files>
 </project-private>
