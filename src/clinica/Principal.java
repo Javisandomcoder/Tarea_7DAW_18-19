@@ -73,7 +73,6 @@ public class Principal  {
         int posicionEnArray = 0;
         boolean colocar = true;
         boolean insertado = false;
-        Paciente paciente = null;
 
         if (listado[listado.length - 1] != null) {
             ES.msgln("ERROR: Clínica completa");
@@ -82,11 +81,16 @@ public class Principal  {
             String NIF = ES.leeCadena("Escriba el NIF del paciente:");
             String nombrePaciente = ES.leeCadena("EScriba el nombre del paciente");
             String emailNotificaciones = ES.leeCadena("Escriba el email del paciente");
+            Paciente paciente = new Paciente(NIF, nombrePaciente, emailNotificaciones) {
+                private static final long serialVersionUID = 1L;
+            };
             int tipoPaciente = ES.leeEntero("Escriba el tipo de paciente (1-> PRIVADO, 2 -> MUTUALISTA)", 1, 2);
             if(TipoPaciente.eleccionTipoPaciente(tipoPaciente).equals(TipoPaciente.PRIVADO)){
-                paciente = new PacientePrivado(NIF, nombrePaciente, emailNotificaciones);
+                int numVisitas = ES.leeEntero("Escriba el número de visitas (0,100)", 0, 100);
+                paciente = new PacientePrivado(numVisitas, paciente);
             }else if(TipoPaciente.eleccionTipoPaciente(tipoPaciente).equals(TipoPaciente.MUTUALISTA)){
-                paciente = new PacienteMutualista(NIF, nombrePaciente, emailNotificaciones);
+                int numHospitalizaciones = ES.leeEntero("Escriba el número de hospitalizaciones (0,100)", 0, 100);
+                paciente = new PacienteMutualista(numHospitalizaciones, paciente);
             }
                     
             while (colocar && (posicionEnArray < Principal.MAX_PACIENTES)) {

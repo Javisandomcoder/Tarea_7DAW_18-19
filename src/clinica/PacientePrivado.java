@@ -13,7 +13,17 @@ public class PacientePrivado extends PacienteMutualista {
     private int numeroDeVisitas;
     public static int numeroPacientesPrivados;
 
-    public PacientePrivado(String NIF, String nombrePaciente, String emailNotificaciones) {
-        super(NIF, nombrePaciente, emailNotificaciones);
+    public PacientePrivado(int numeroDeVisitas, Paciente paciente) {
+        super(numeroDeVisitas, paciente);
+        this.numeroDeVisitas = numeroDeVisitas;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    
+    
+    
 }

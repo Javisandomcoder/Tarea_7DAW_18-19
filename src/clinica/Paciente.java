@@ -14,9 +14,10 @@ import java.io.Serializable;
 public abstract class Paciente implements Serializable{
 
     private static final long serialVersionUID = 1L;
-    private String NIF;
+    String NIF;
     private String nombrePaciente;
     private String emailNotificaciones;
+    
     
     public Paciente(String NIF, String nombrePaciente,String emailNotificaciones){
         this.NIF = NIF;
