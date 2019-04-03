@@ -12,7 +12,7 @@ import utilidades.ES;
  *
  * @author javisandom
  */
-public class Principal  {
+public class Principal {
 
     private static final int MAX_PACIENTES = 40;
 
@@ -31,8 +31,6 @@ public class Principal  {
         } else {
             System.out.println("NO EXISTE FICHERO");
         }
-        
-        
 
         //Presentamos el menú
         do {
@@ -47,9 +45,9 @@ public class Principal  {
             ES.msgln("\t\t 6.- Escribir lista de pacientes a txt.\n");
             ES.msgln("\t\t 0.- Salir de la aplicación.");
             ES.msgln("\t =============================================");
-            
+
             opcion = ES.leeEntero("Introduzca la opción elegida", 0, 6);
-            switch(opcion){
+            switch (opcion) {
                 case 0:
                     ES.msg("Saliendo...");
                     break;
@@ -68,31 +66,35 @@ public class Principal  {
         } while (opcion != 0);
 
     }
-    
+
     private static boolean insertarPaciente(Paciente[] listado) {
         int posicionEnArray = 0;
         boolean colocar = true;
         boolean insertado = false;
+        String NIF;
 
         if (listado[listado.length - 1] != null) {
             ES.msgln("ERROR: Clínica completa");
-        } else {//Pedimos los datos de la caja
+        } else {//Pedimos los datos de la caja  
             ES.msgln("Introduzca los datos del paciente:");
-            String NIF = ES.leeCadena("Escriba el NIF del paciente:");
-            String nombrePaciente = ES.leeCadena("EScriba el nombre del paciente");
+            do {
+                NIF = ES.leeCadena("Escriba el NIF del paciente:");
+                if (buscarNIF(listado, NIF)) {
+                    ES.msg("Ya existe un paciente con ese NIF en la clínica\n");
+                }
+            } while (buscarNIF(listado, NIF));
+            String nombrePaciente = ES.leeCadena("Escriba el nombre del paciente");
             String emailNotificaciones = ES.leeCadena("Escriba el email del paciente");
-            Paciente paciente = new Paciente(NIF, nombrePaciente, emailNotificaciones) {
-                private static final long serialVersionUID = 1L;
-            };
+            Paciente paciente = null;
             int tipoPaciente = ES.leeEntero("Escriba el tipo de paciente (1-> PRIVADO, 2 -> MUTUALISTA)", 1, 2);
-            if(TipoPaciente.eleccionTipoPaciente(tipoPaciente).equals(TipoPaciente.PRIVADO)){
+            if (TipoPaciente.eleccionTipoPaciente(tipoPaciente).equals(TipoPaciente.PRIVADO)) {
                 int numVisitas = ES.leeEntero("Escriba el número de visitas (0,100)", 0, 100);
-                paciente = new PacientePrivado(numVisitas, paciente);
-            }else if(TipoPaciente.eleccionTipoPaciente(tipoPaciente).equals(TipoPaciente.MUTUALISTA)){
+                paciente = new PacientePrivado(NIF, nombrePaciente, emailNotificaciones, numVisitas);
+            } else if (TipoPaciente.eleccionTipoPaciente(tipoPaciente).equals(TipoPaciente.MUTUALISTA)) {
                 int numHospitalizaciones = ES.leeEntero("Escriba el número de hospitalizaciones (0,100)", 0, 100);
-                paciente = new PacienteMutualista(numHospitalizaciones, paciente);
+                paciente = new PacienteMutualista(NIF, nombrePaciente, emailNotificaciones, numHospitalizaciones);
             }
-                    
+
             while (colocar && (posicionEnArray < Principal.MAX_PACIENTES)) {
                 if (listado[posicionEnArray] == null) {
                     listado[posicionEnArray] = paciente;
@@ -107,17 +109,17 @@ public class Principal  {
         return insertado;
 
     }
-    
+
     private static void listarPacientes(Paciente[] listado) {
         if (listado[0] == null) {
             ES.msgln("El registro está vacio");
         } else {
-            for(int i = 0; i < listado.length && listado[i] != null; ++i) {
+            for (int i = 0; i < listado.length && listado[i] != null; ++i) {
                 ES.msgln(listado[i].toString() + "\n");
             }
         }
     }
-    
+
     public static void ordenaRegistro(Paciente[] listado) {
         Paciente aux;
         int contador = 0;
@@ -142,8 +144,8 @@ public class Principal  {
             throw new IllegalArgumentException("No se ha indicado ninguna lista para ordenar");
         }
     }
-    
-      private static boolean borrarPaciente(Paciente[] listado) {
+
+    private static boolean borrarPaciente(Paciente[] listado) {
         boolean pacienteBorrado = false;
 
         if (listado != null) {
@@ -169,8 +171,8 @@ public class Principal  {
         }
         return pacienteBorrado;
     }
-      
-       public static int buscarPaciente(Paciente[] listado, String DNI) {
+
+    public static int buscarPaciente(Paciente[] listado, String DNI) {
         boolean buscar = true;
         int pos = 0;
 
@@ -191,7 +193,34 @@ public class Principal  {
                 }
             }
         }
-           System.out.println("BBBBBBB"+ pos);
         return pos;
     }
+
+    public static boolean buscarNIF(Paciente[] listado, String NIF) {
+        boolean buscar = true;
+        boolean encontrado = false;
+        int pos = 0;
+
+        Principal.ordenaRegistro(listado);
+        while (buscar) {
+            if (pos == listado.length) {
+                buscar = false;
+            } else {
+                if (listado[pos] == null) {
+                    buscar = false;
+                    pos = listado.length;
+                } else {
+                    if (!listado[pos].getNIF().equals(NIF)) {
+                        pos++;
+                    } else {
+                        buscar = false;
+                        encontrado = true;
+                    }
+                }
+            }
+        }
+        return encontrado;
+    }
+    
+    
 }

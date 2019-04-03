@@ -5,25 +5,22 @@
  */
 package clinica;
 
-
-public class PacientePrivado extends PacienteMutualista {
+public class PacientePrivado extends Paciente {
 
     private static final long serialVersionUID = 1L;
-    
+
     private int numeroDeVisitas;
     public static int numeroPacientesPrivados;
 
-    public PacientePrivado(int numeroDeVisitas, Paciente paciente) {
-        super(numeroDeVisitas, paciente);
-        this.numeroDeVisitas = numeroDeVisitas;
+    public PacientePrivado(String NIF, String nombrePaciente, String emailNotificaciones, int numDeVisitas) {
+        super(NIF, nombrePaciente, emailNotificaciones);
+        this.numeroDeVisitas = numDeVisitas;
+        PacientePrivado.numeroPacientesPrivados++;
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return super.toString() + " Número de visitas: " + this.numeroDeVisitas;
     }
 
-    
-    
-    
 }
