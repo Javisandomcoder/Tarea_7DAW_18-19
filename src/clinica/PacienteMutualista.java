@@ -22,9 +22,19 @@ public class PacienteMutualista extends Paciente {
         PacienteMutualista.numeroPacientesMutualistas++;
     }
 
+    public int getNumeroDeHospitalizaciones() {
+        return numeroDeHospitalizaciones;
+    }
+
+    public void setNumeroDeHospitalizaciones(int numeroDeHospitalizaciones) {
+        this.numeroDeHospitalizaciones = numeroDeHospitalizaciones;
+    }
+    
+    
+    
     @Override
     public String toString() {
-        return super.toString() + " Número de hospitalizaciones: " + this.numeroDeHospitalizaciones;
+        return super.toString() + " Número de hospitalizaciones: " + getNumeroDeHospitalizaciones();
     }
 
 }

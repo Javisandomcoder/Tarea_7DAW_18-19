@@ -14,7 +14,7 @@ import java.io.Serializable;
 public abstract class Paciente implements Serializable{
 
     private static final long serialVersionUID = 1L;
-    String NIF;
+    private String NIF;
     private String nombrePaciente;
     private String emailNotificaciones;
     
@@ -34,17 +34,39 @@ public abstract class Paciente implements Serializable{
     public String getNIF() {
         return NIF;
     }
+
+    public void setNIF(String NIF) {
+        this.NIF = NIF;
+    }
+
+    public String getNombrePaciente() {
+        return nombrePaciente;
+    }
+
+    public void setNombrePaciente(String nombrePaciente) {
+        this.nombrePaciente = nombrePaciente;
+    }
+
+    public String getEmailNotificaciones() {
+        return emailNotificaciones;
+    }
+
+    public void setEmailNotificaciones(String emailNotificaciones) {
+        this.emailNotificaciones = emailNotificaciones;
+    }
+
+    
     
     @Override
     public String toString(){
         StringBuilder datosPaciente = new StringBuilder();
         
         datosPaciente.append("NIF: ");
-        datosPaciente.append(this.NIF);
+        datosPaciente.append(getNIF());
         datosPaciente.append(". Nombre paciente: ");
-        datosPaciente.append(this.nombrePaciente);
-        datosPaciente.append(". email para notificaciones: ");
-        datosPaciente.append(this.emailNotificaciones);
+        datosPaciente.append(getNombrePaciente());
+        datosPaciente.append(". Email para notificaciones: ");
+        datosPaciente.append(getEmailNotificaciones());
         
         return datosPaciente.toString();
     }

@@ -18,9 +18,19 @@ public class PacientePrivado extends Paciente {
         PacientePrivado.numeroPacientesPrivados++;
     }
 
+    public int getNumeroDeVisitas() {
+        return numeroDeVisitas;
+    }
+
+    public void setNumeroDeVisitas(int numeroDeVisitas) {
+        this.numeroDeVisitas = numeroDeVisitas;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return super.toString() + " Número de visitas: " + this.numeroDeVisitas;
+        return super.toString() + " Número de visitas: " + getNumeroDeVisitas();
     }
 
 }

@@ -12,7 +12,7 @@ import utilidades.ES;
  *
  * @author javisandom
  */
-public class Principal {
+public class Hospital {
 
     private static final int MAX_PACIENTES = 40;
 
@@ -58,7 +58,7 @@ public class Principal {
                     listarPacientes(paciente);
                     break;
                 case 3:
-                    if (Principal.borrarPaciente(paciente)) {
+                    if (Hospital.borrarPaciente(paciente)) {
                         cambioEntradaRegistro = true;
                     }
                     break;
@@ -95,7 +95,7 @@ public class Principal {
                 paciente = new PacienteMutualista(NIF, nombrePaciente, emailNotificaciones, numHospitalizaciones);
             }
 
-            while (colocar && (posicionEnArray < Principal.MAX_PACIENTES)) {
+            while (colocar && (posicionEnArray < Hospital.MAX_PACIENTES)) {
                 if (listado[posicionEnArray] == null) {
                     listado[posicionEnArray] = paciente;
                     colocar = false;
@@ -117,8 +117,10 @@ public class Principal {
             for (int i = 0; i < listado.length && listado[i] != null; ++i) {
                 ES.msgln(listado[i].toString() + "\n");
             }
+            ES.msgln("Total de pacientes: " + (PacienteMutualista.numeroPacientesMutualistas 
+                    + PacientePrivado.numeroPacientesPrivados));//Sumamos el total de los pacientes
         }
-    }
+    } 
 
     public static void ordenaRegistro(Paciente[] listado) {
         Paciente aux;
@@ -149,10 +151,10 @@ public class Principal {
         boolean pacienteBorrado = false;
 
         if (listado != null) {
-            Principal.ordenaRegistro(listado);
+            Hospital.ordenaRegistro(listado);
             String pacienteAborrar = ES.leeCadena("Introduzca el DNI del paciente a borrar");
 
-            int posicion = Principal.buscarPaciente(listado, pacienteAborrar);
+            int posicion = Hospital.buscarPaciente(listado, pacienteAborrar);
             if (posicion != listado.length) {
                 String respuesta = ES.leeRespuesta("Se va a proceder a borrar de la lista:\n" + listado[posicion] + "\n ¿Desea continuar con el borrado? (S/N):");
                 if (respuesta.equals("S")) {
@@ -160,13 +162,14 @@ public class Principal {
                         listado[conta] = listado[conta + 1];
                     }
                     listado[listado.length - 1] = null;
+//  >>>>>>>>>>>>>>System.out.println("GGGG"+ (listado[listado.length - 1] instanceof PacienteMutualista));
                     pacienteBorrado = true;
                     ES.msgln("Borrado realizado correctamente.");
                 } else {
                     ES.msgln("Operación de borrado cancelada.");
                 }
             } else {
-                System.err.println("No existe nigún paciente con ese DNI en el registro");
+                System.err.println("No existe ningún paciente con ese DNI en el registro");
             }
         }
         return pacienteBorrado;
@@ -176,7 +179,7 @@ public class Principal {
         boolean buscar = true;
         int pos = 0;
 
-        Principal.ordenaRegistro(listado);
+        Hospital.ordenaRegistro(listado);
         while (buscar) {
             if (pos == listado.length) {
                 buscar = false;
@@ -201,7 +204,7 @@ public class Principal {
         boolean encontrado = false;
         int pos = 0;
 
-        Principal.ordenaRegistro(listado);
+        Hospital.ordenaRegistro(listado);
         while (buscar) {
             if (pos == listado.length) {
                 buscar = false;
