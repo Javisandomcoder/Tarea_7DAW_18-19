@@ -6,6 +6,8 @@
 package clinica;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import utilidades.ES;
 
 /**
@@ -98,6 +100,7 @@ public class Hospital {
 
             String nombrePaciente = ES.leeCadena("Escriba el nombre del paciente");
             String emailNotificaciones = ES.leeCadena("Escriba el email del paciente");
+            comprobarCorreo(emailNotificaciones);//<<<<<<<<<<<<<<<<<<<<<<<COMPROBAR
             Paciente paciente = null;
             int tipoPaciente = ES.leeEntero("Escriba el tipo de paciente (1-> PRIVADO, 2 -> MUTUALISTA)", 1, 2);
             if (TipoPaciente.eleccionTipoPaciente(tipoPaciente).equals(TipoPaciente.PRIVADO)) {
@@ -255,5 +258,21 @@ public class Hospital {
         System.out.println(">>>>>" + letraNIF.equals(comprobacionLetra[letraCorrecta]));
         return NIFcorrecto;
     }
-
+    
+    public static boolean comprobarCorreo(String email) {
+        boolean emailCorrecto = false;
+        String emailPattern = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@"
+                + "[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
+        Pattern pattern = Pattern.compile(emailPattern);
+        if (email != null) {
+            Matcher matcher = pattern.matcher(email);
+            if (matcher.matches()) {
+                emailCorrecto = true;
+                System.out.println("Válido");
+            } else {
+                System.out.println("NO Válido");
+            }
+        }
+        return emailCorrecto;
+    }
 }
