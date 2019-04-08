@@ -71,18 +71,31 @@ public class Hospital {
         int posicionEnArray = 0;
         boolean colocar = true;
         boolean insertado = false;
+        boolean NIFIncorrecto;
         String NIF;
 
         if (listado[listado.length - 1] != null) {
             ES.msgln("ERROR: Clínica completa");
         } else {//Pedimos los datos de la caja  
             ES.msgln("Introduzca los datos del paciente:");
+
             do {
+                NIFIncorrecto = false;
                 NIF = ES.leeCadena("Escriba el NIF del paciente:");
-                if (buscarNIF(listado, NIF)) {
-                    ES.msg("Ya existe un paciente con ese NIF en la clínica\n");
+                try {
+
+                    if (!comprobarNIF(NIF)) {
+                        System.err.println("El NIF introducido no es correcto");
+                        NIFIncorrecto = true;
+                    } else if (buscarNIF(listado, NIF)) {
+                        System.err.println("Ya existe un paciente con ese NIF en la clínica");
+                    }
+                } catch (StringIndexOutOfBoundsException soe) {
+                    System.err.println("El formato de NIF introducido no es correcto");
+                    NIFIncorrecto = true;
                 }
-            } while (buscarNIF(listado, NIF));
+            } while (buscarNIF(listado, NIF) || NIFIncorrecto);
+
             String nombrePaciente = ES.leeCadena("Escriba el nombre del paciente");
             String emailNotificaciones = ES.leeCadena("Escriba el email del paciente");
             Paciente paciente = null;
@@ -111,16 +124,17 @@ public class Hospital {
     }
 
     private static void listarPacientes(Paciente[] listado) {
+        int pacientesActuales = 0;
         if (listado[0] == null) {
             ES.msgln("El registro está vacio");
         } else {
             for (int i = 0; i < listado.length && listado[i] != null; ++i) {
                 ES.msgln(listado[i].toString() + "\n");
+                pacientesActuales++;
             }
-            ES.msgln("Total de pacientes: " + (PacienteMutualista.numeroPacientesMutualistas 
-                    + PacientePrivado.numeroPacientesPrivados));//Sumamos el total de los pacientes
+            ES.msgln("Total de pacientes: " + pacientesActuales);
         }
-    } 
+    }
 
     public static void ordenaRegistro(Paciente[] listado) {
         Paciente aux;
@@ -162,7 +176,6 @@ public class Hospital {
                         listado[conta] = listado[conta + 1];
                     }
                     listado[listado.length - 1] = null;
-//  >>>>>>>>>>>>>>System.out.println("GGGG"+ (listado[listado.length - 1] instanceof PacienteMutualista));
                     pacienteBorrado = true;
                     ES.msgln("Borrado realizado correctamente.");
                 } else {
@@ -224,6 +237,23 @@ public class Hospital {
         }
         return encontrado;
     }
-    
-    
+
+    public static boolean comprobarNIF(String NIF) throws StringIndexOutOfBoundsException {
+        boolean NIFcorrecto;
+
+        int numNIF = Integer.parseInt(NIF.substring(0, 8));
+        String letraNIF = NIF.substring(8, 9);
+        String[] comprobacionLetra = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
+        int letraCorrecta = numNIF % 23;
+        if (letraNIF.equals(comprobacionLetra[letraCorrecta])) {
+            NIFcorrecto = true;
+        } else {
+            NIFcorrecto = false;
+        }
+        System.out.println(">>>>>" + letraNIF);
+        System.out.println(">>>>>" + comprobacionLetra[letraCorrecta]);
+        System.out.println(">>>>>" + letraNIF.equals(comprobacionLetra[letraCorrecta]));
+        return NIFcorrecto;
+    }
+
 }

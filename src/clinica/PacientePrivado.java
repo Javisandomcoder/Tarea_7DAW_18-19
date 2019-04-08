@@ -25,8 +25,6 @@ public class PacientePrivado extends Paciente {
     public void setNumeroDeVisitas(int numeroDeVisitas) {
         this.numeroDeVisitas = numeroDeVisitas;
     }
-    
-    
 
     @Override
     public String toString() {

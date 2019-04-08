@@ -30,8 +30,6 @@ public class PacienteMutualista extends Paciente {
         this.numeroDeHospitalizaciones = numeroDeHospitalizaciones;
     }
     
-    
-    
     @Override
     public String toString() {
         return super.toString() + " Número de hospitalizaciones: " + getNumeroDeHospitalizaciones();
