@@ -32,7 +32,7 @@ public class PacienteMutualista extends Paciente {
     
     @Override
     public String toString() {
-        return super.toString() + " Número de hospitalizaciones: " + getNumeroDeHospitalizaciones();
+        return super.toString() + String.format("  Número de hospitalizaciones: %-8s", this.numeroDeHospitalizaciones);
     }
 
 }

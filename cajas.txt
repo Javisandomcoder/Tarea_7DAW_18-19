@@ -1,0 +1,4 @@
+NIF: 44961814B  Nombre paciente: javi      Email para notificaciones: javi@nn.com  Número de visitas: 2       
+NIF: 79354087Q  Nombre paciente: gagaga    Email para notificaciones: ja@gm.com  Número de visitas: 2       
+NIF: 31337020A  Nombre paciente: fafa      Email para notificaciones: ja@gf.com  Número de hospitalizaciones: 2       
+NIF: 42524027V  Nombre paciente: gagag     Email para notificaciones: javi@gmail.com  Número de hospitalizaciones: 2       

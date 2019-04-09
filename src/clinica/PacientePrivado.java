@@ -28,7 +28,7 @@ public class PacientePrivado extends Paciente {
 
     @Override
     public String toString() {
-        return super.toString() + " Número de visitas: " + getNumeroDeVisitas();
+        return super.toString() + String.format("  Número de visitas: %-8s", this.numeroDeVisitas);
     }
 
 }

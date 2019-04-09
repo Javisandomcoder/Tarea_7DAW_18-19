@@ -61,13 +61,10 @@ public abstract class Paciente implements Serializable{
     public String toString(){
         StringBuilder datosPaciente = new StringBuilder();
         
-        datosPaciente.append("NIF: ");
-        datosPaciente.append(getNIF());
-        datosPaciente.append(". Nombre paciente: ");
-        datosPaciente.append(getNombrePaciente());
-        datosPaciente.append(". Email para notificaciones: ");
-        datosPaciente.append(getEmailNotificaciones());
-        
+        datosPaciente.append(String.format("NIF: %-8s", this.NIF));
+        datosPaciente.append(String.format("  Nombre paciente: %-8s", this.nombrePaciente));
+        datosPaciente.append(String.format("  Email para notificaciones: %-8s", this.emailNotificaciones));
+       
         return datosPaciente.toString();
     }
 }

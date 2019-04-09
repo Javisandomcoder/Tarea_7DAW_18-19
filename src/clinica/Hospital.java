@@ -5,7 +5,9 @@
  */
 package clinica;
 
-import java.io.File;
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import utilidades.ES;
@@ -29,7 +31,8 @@ public class Hospital {
         Paciente[] paciente = new Paciente[MAX_PACIENTES];//Array de pacientes
 
         if (fichero.exists()) {
-            System.out.println("FICHERO EXISTE");
+            paciente = Hospital.cargarLista(nombreFichero);
+            ES.msgln("Datos del fichero cargados");
         } else {
             System.out.println("NO EXISTE FICHERO");
         }
@@ -51,10 +54,26 @@ public class Hospital {
             opcion = ES.leeEntero("Introduzca la opción elegida", 0, 6);
             switch (opcion) {
                 case 0:
-                    ES.msg("Saliendo...");
+                    if (cambioEntradaRegistro) {
+                        String guardar = ES.leeCadena("Ha realizado cambios que no ha "
+                                + "guardado en disco ¿Desea guardarlos antes de salir? (S/N)");
+                        if (guardar.equalsIgnoreCase("S")) {
+                            ES.msgln("Guardando datos antes de salir...");
+                            boolean resultado = Hospital.guardarArrayEnFichero(paciente, nombreFichero);
+                            if (resultado) {
+                                ES.msgln("Los datos se han guardado correctamente en el fichero: " + nombreFichero);
+                            } else {
+                                ES.msgln("Error: los datos NO se han guardado correctamente en el fichero: " + nombreFichero);
+                            }
+                        } else {
+                            ES.msgln("Anulando cambios antes de salir...");
+                        }
+                    }
+                    ES.msgln("Cerrando aplicación...");
                     break;
                 case 1:
-                    insertarPaciente(paciente);
+                    Hospital.insertarPaciente(paciente);
+                    cambioEntradaRegistro = true;
                     break;
                 case 2:
                     listarPacientes(paciente);
@@ -63,6 +82,35 @@ public class Hospital {
                     if (Hospital.borrarPaciente(paciente)) {
                         cambioEntradaRegistro = true;
                     }
+                    break;
+                case 4:
+                    if (Hospital.guardarArrayEnFichero(paciente, nombreFichero)) {
+                        cambioEntradaRegistro = false;
+                        ES.msgln("Los datos se han guardado correctamente en el fichero: " + nombreFichero);
+                    } else {
+                        ES.msgln("Error: los datos NO se han guardado correctamente en el fichero: " + nombreFichero);
+                    }
+                    break;
+                case 5:
+                    if (cambioEntradaRegistro) {
+                        String cargar = ES.leeCadena("Ha realizado cambios que no ha guardado "
+                                + "en disco, \nSi continúa con la carga del archivo se restaurarán los "
+                                + "datos del disco y se perderán los datos no guardados \n"
+                                + "¿Desea continuar con la carga y restaurar los datos del archivo? (S/N)");
+                        if (cargar.equalsIgnoreCase("s")) {
+                            ES.msgln("Restaurando datos del archivo y descartando cambios no guardados...");
+                            paciente = Hospital.cargarLista(nombreFichero);
+                            cambioEntradaRegistro = false;
+                            ES.msgln("Archivo restaurado en memoria");
+                        } else {
+                            ES.msgln("Carga del archivo anulada");
+                        }
+                    } else {
+                        paciente = Hospital.cargarLista(nombreFichero);
+                    }
+                    break;
+                case 6:
+                    Hospital.registroATxt(paciente);
                     break;
             }
         } while (opcion != 0);
@@ -74,6 +122,7 @@ public class Hospital {
         boolean colocar = true;
         boolean insertado = false;
         boolean NIFIncorrecto;
+        String emailNotificaciones;
         String NIF;
 
         if (listado[listado.length - 1] != null) {
@@ -99,8 +148,12 @@ public class Hospital {
             } while (buscarNIF(listado, NIF) || NIFIncorrecto);
 
             String nombrePaciente = ES.leeCadena("Escriba el nombre del paciente");
-            String emailNotificaciones = ES.leeCadena("Escriba el email del paciente");
-            comprobarCorreo(emailNotificaciones);//<<<<<<<<<<<<<<<<<<<<<<<COMPROBAR
+            do {
+                emailNotificaciones = ES.leeCadena("Escriba el email del paciente");
+                if (!comprobarCorreo(emailNotificaciones)) {
+                    System.err.println("El formato de correo eléctronico proporcionado no es correcto");
+                }
+            } while (!comprobarCorreo(emailNotificaciones));
             Paciente paciente = null;
             int tipoPaciente = ES.leeEntero("Escriba el tipo de paciente (1-> PRIVADO, 2 -> MUTUALISTA)", 1, 2);
             if (TipoPaciente.eleccionTipoPaciente(tipoPaciente).equals(TipoPaciente.PRIVADO)) {
@@ -128,6 +181,7 @@ public class Hospital {
 
     private static void listarPacientes(Paciente[] listado) {
         int pacientesActuales = 0;
+
         if (listado[0] == null) {
             ES.msgln("El registro está vacio");
         } else {
@@ -248,19 +302,14 @@ public class Hospital {
         String letraNIF = NIF.substring(8, 9);
         String[] comprobacionLetra = {"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
         int letraCorrecta = numNIF % 23;
-        if (letraNIF.equals(comprobacionLetra[letraCorrecta])) {
-            NIFcorrecto = true;
-        } else {
-            NIFcorrecto = false;
-        }
-        System.out.println(">>>>>" + letraNIF);
-        System.out.println(">>>>>" + comprobacionLetra[letraCorrecta]);
-        System.out.println(">>>>>" + letraNIF.equals(comprobacionLetra[letraCorrecta]));
+        NIFcorrecto = letraNIF.equals(comprobacionLetra[letraCorrecta]);
+
         return NIFcorrecto;
     }
-    
+
     public static boolean comprobarCorreo(String email) {
         boolean emailCorrecto = false;
+
         String emailPattern = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@"
                 + "[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
         Pattern pattern = Pattern.compile(emailPattern);
@@ -268,11 +317,66 @@ public class Hospital {
             Matcher matcher = pattern.matcher(email);
             if (matcher.matches()) {
                 emailCorrecto = true;
-                System.out.println("Válido");
-            } else {
-                System.out.println("NO Válido");
             }
         }
         return emailCorrecto;
+    }
+
+    private static boolean guardarArrayEnFichero(Paciente[] paciente, String ruta) {
+        boolean almacenado = false;
+
+        try {
+            FileOutputStream fichero = new FileOutputStream(new File(ruta));
+            ObjectOutputStream ficheroSalida;
+            ficheroSalida = new ObjectOutputStream(fichero);
+            ficheroSalida.writeObject(paciente);
+            ficheroSalida.close();
+            almacenado = true;
+            ES.msgln("Datos guardados en fichero");
+        } catch (FileNotFoundException ex) {
+            ES.msgln("Error: Archivo no encontrado");
+        } catch (IOException ex) {
+            ES.msgln("Problema al acceder al archivo" + ex.getMessage());
+        }
+        return almacenado;
+
+    }
+
+    private static Paciente[] cargarLista(String ruta) {
+        Paciente[] array = null;
+
+        try {
+            FileInputStream fichero = new FileInputStream(new File(ruta));
+            ObjectInputStream ficheroEntrada = new ObjectInputStream(fichero);
+            array = (Paciente[]) ficheroEntrada.readObject();
+            ficheroEntrada.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Fichero no encontrado");
+        } catch (ClassNotFoundException Cex) {
+            System.err.println("Problema al cargar fichero");
+        } catch (IOException ex) {
+            Logger.getLogger(Hospital.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return array;
+    }
+
+    private static void registroATxt(Paciente[] listado) {
+        try {
+            if (listado[0] == null) {
+                ES.msgln("No hay cajas en el almacén");
+            } else {
+                FileWriter ficheroTxt = new FileWriter("cajas.txt");
+                PrintWriter escrito = new PrintWriter(ficheroTxt);
+                for (int i = 0; i < listado.length && listado[i] != null; i++) {
+                    escrito.println(listado[i].toString());
+                }
+                ficheroTxt.close();
+                ES.msgln("Fichero creado con correctamente");
+            }
+        } catch (FileNotFoundException e) {
+            ES.msgln("Archivo no encontrado");
+        } catch (IOException ex) {
+            Logger.getLogger(Hospital.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
