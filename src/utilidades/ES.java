@@ -482,8 +482,7 @@ public class ES {
     /**
      * Método que permite establecer el color de texto mostrado por pantalla.
      * @param c Uno de los valores del enumerado ColorTexto.
-     * @see ES.ColorTexto
-     * @see ES.resetearColores
+     * 
      */
     public static void establecerColorTexto (ColorTexto c)
     {
@@ -493,8 +492,7 @@ public class ES {
     /**
      * Método que permite establecer el color de fondo para el texto mostrado por pantalla.
      * @param c Uno de los valores del enumerado ColorTexto.
-     * @see ES.ColorTexto
-     * @see ES.resetearColores
+     * 
      */
     public static void establecerColorFondo (ColorTexto c)
     {
