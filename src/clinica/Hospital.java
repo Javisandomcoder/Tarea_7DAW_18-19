@@ -17,7 +17,7 @@ import utilidades.ES;
  * iterando continuamente mientras que el usuario no introduzca un 0.
  *
  * @version v0.1 abril_2019
- * @author Javier Sánchez Domínguez javisandom@gmail.com
+ * 
  */
 public class Hospital {
 
